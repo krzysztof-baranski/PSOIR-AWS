@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+		<script  type= text/javascript src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+		<link href="https://rawgit.com/rvera/image-picker/master/image-picker/image-picker.css" rel="stylesheet">	
+		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">	
+		<script  type= text/javascript src="https://rawgit.com/rvera/image-picker/master/image-picker/image-picker.min.js" ></script>
+		<script type= text/javascript>
+		$(function() {
+			$("select").imagepicker();
+		});
+		
+		function onSubmit(e) {
+			var sources = [];
+			$.each($(".selected > img"), function(index, value){ 
+				var tmpSplit = $(value).attr("src").split('/');
+				sources.push(tmpSplit[tmpSplit.length -2] + '/' + tmpSplit[tmpSplit.length - 1]);
+			});
+        
+            if (sources.length === 0) {
+                e.preventDefault();
+                return;
+            }
+            document.getElementById('fileNames').value = JSON.stringify(sources);
+        }
+		</script>
+    <title>Send photo</title>
+</head>
+<body>
+<h3>Galeria obrazów:</h3>    
+
+<div>
+<a class="btn btn-large btn-info" href="/">Strona domowa</a>
+</div>
+
+<div class="container">
+	<form method="post" action="/rotate" onsubmit="onSubmit(event)">
+		<div class="col-md-3">
+			<label>Obróć</label></br>
+			<input type="radio" checked="true" name="direction" value="left"> w lewo
+			<input type="radio" name="direction" value="right"> w prawo
+
+			<input class="form-control" style="margin-top:10px;" 
+				type="number" name="rotateDegrees" min="0" value="45" max="360">
+			<button class="btn btn-large btn-info" style="margin-top:10px;" type="submit">Obróć</button>
+		</div>
+		<div class="col-md-3">
+			<input type="hidden" name="files" id="fileNames" />
+		</div>     
+	</form>     
+</div>
+		                
+<select  multiple="multiple" class="image-picker show-html">
+	<% files.forEach(function(file, i) { %>
+		<option data-img-src="<%= 'https://s3-us-west-2.amazonaws.com/' + bucket + '/' + file.Key %>" value=<%=file.Key%>> </option>
+    <% }); %>
+</select>
+
+</body>
+</html>
