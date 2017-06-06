@@ -16,6 +16,7 @@ var task = function (request, callback) {
 	});
 
 	simpleDB.putAttributes(params.key, attributes, function () {
+		console.log("@@ putAttributes succesPage ", params.key, attributes);
 		simpleDB.getFromDb(params.key);
 	});
 

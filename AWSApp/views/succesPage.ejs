@@ -2,13 +2,25 @@
 	<head>
 		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">	
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
-		<title>Succes Page</title>
+		<title>Wysyłanie udane</title>
 	</head>
 	<body>
-<p> Plik o nazwie: <%= fileName %> został załadowany pomyślnie.</p>
-<div>
-  <a class="btn btn-default" href="/gallery">Idź do galerii</a>
-  <a class="btn btn-large btn-info" href="/">Strona domowa</a>
-</div>
-</body>
+		<div class="nav-bar" style="margin-left: 110px; margin-top: 5px;">
+			<a class="btn btn-large btn-lg btn-info" style="width: 200px;" href="/">Strona domowa</a>
+			<a class="btn btn-large btn-lg btn-info" style="width: 200px;" href="/gallery">Idź do galerii</a>
+		</div>
+		<div style="margin-top: 30px;" class="container">
+			<section id="section1" class="panel panel-default">
+
+				<div class="panel-heading">
+					<div class="container">
+		    			<h3 class="panel-title">Plik o nazwie: <strong><%= fileName %></strong> został załadowany pomyślnie</h3>
+		    		</div>
+			  	</div>
+			  	<div class="panel-body">
+					<a class="btn btn-large btn-default" style="width: 120px;" href="/gallery">Idź do galerii</a>
+			  	</div>
+		  	</section>
+	  	</div>
+	</body>
 </html>

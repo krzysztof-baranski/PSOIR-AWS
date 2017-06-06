@@ -2,16 +2,17 @@ var AWS = require("aws-sdk");
 AWS.config.loadFromPath('./config.json');
 
 var simpledb = new AWS.SimpleDB();
-var domainName = '208289';
+var domainName = "208289Domain";
 
 var createDomain = function (callback) {
 	var params = {
 		DomainName : domainName /* required */
 	};
 	simpledb.createDomain(params, function (err, data) {
-		if (err)
+		if (err) {
+			console.log("@@ createDomain");
 			console.log(err, err.stack); // an error occurred
-		else {
+		} else {
 			console.log('Utworzono SimpleDB Domain'); // successful response
 			callback();
 		}
@@ -26,21 +27,24 @@ var getFromDb = function (itemName) {
 		/* required */
 	};
 	simpledb.getAttributes(params, function (err, data) {
-		if (err)
+		if (err) {
+			console.log("@@ getAttributes getFromDbę");
 			console.log(err, err.stack); // an error occurred
-		else
+		} else {
 			console.log('Wiadomosc getAttributes ' + JSON.stringify(data)); // successful response
+		}
 	});
 }
 
 var selectFromDb = function (callback) {
 	var params = {
-		SelectExpression : "select * from 208289"
+		SelectExpression : "select * from 208289Domain"
 	};
 	simpledb.select(params, function (err, data) {
-		if (err)
+		if (err) {
+			console.log("@@ selectFromDb");
 			console.log(err, err.stack); // an error occurred
-		else {
+		} else {
 			callback(data);
 			// successful response
 		}
@@ -55,10 +59,12 @@ var putAttributes = function (itemName, attributes, callback) {
 		ItemName : itemName,
 		/* required */
 	};
+
 	simpledb.putAttributes(params, function (err, data) {
-		if (err)
+		if (err) {
+			console.log("@@ putAttributes", domainName, " p ", params );
 			console.log(err, err.stack); // an error occurred
-		else {
+		} else {
 			console.log('Zapisano do SimpleDB'); // successful response
 			callback();
 		}
