@@ -6,20 +6,15 @@ var sqs = new AWS.SQS();
 var QUEUE_URL = 'https://sqs.us-west-2.amazonaws.com/061357202774/208289-sqs';
 
 var task = function (request, callback) {
-
-	var rotateDegrees = parseInt(request.body.rotateDegrees);
-	var fileList = JSON.parse(request.body.files);
-	var direction = request.body.direction;
+	var fileList = JSON.parse(request.body.files2);
 	var command = request.body.command;
 
-	console.log("Rotate degrees: " + rotateDegrees + " direction: " + direction);
+	console.log("File will be deleted");
 
 	for (var i = 0; i < fileList.length; i++) {
 		var params = {
 			MessageBody : JSON.stringify({
 				file : fileList[i],
-				rotateDegrees: rotateDegrees,
-				direction: direction,
 				command: command
 			}),
 			QueueUrl : QUEUE_URL

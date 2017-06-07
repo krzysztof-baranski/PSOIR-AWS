@@ -3,9 +3,9 @@
 		["starts-with", "$key", "208289/"],
 		{"bucket": "208289-bucket"}, 
 		{"x-amz-meta-name": ""},
-		{"x-amz-meta-computer": "http://ec2-34-211-26-35.us-west-2.compute.amazonaws.com:8080/"},
+		{"x-amz-meta-computer": "http://ec2-52-24-8-168.us-west-2.compute.amazonaws.com:8080/"},
 		{"acl": "private"},
-		{"success_action_redirect": "http://ec2-34-211-26-35.us-west-2.compute.amazonaws.com:8080/succesPage"},  
+		{"success_action_redirect": "http://ec2-52-24-8-168.us-west-2.compute.amazonaws.com:8080/succesPage"},  
 		["content-length-range", 0, 1048576]
 	]   
 }

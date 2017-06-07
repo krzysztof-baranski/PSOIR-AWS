@@ -25,6 +25,7 @@ function rotate(msg) {
 	};
 
 	s3.getObject(params, function (err, data) {
+		console.log("getObject", file);
 		if (err) {
 			console.log("Error: " + err);
 		} else {

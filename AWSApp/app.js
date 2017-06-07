@@ -19,11 +19,5 @@ actionsCofig.forEach(function(elem){
 
 var service = require("webs-weeia").http(actionsCofig);
 
+console.log("Working...");
 service(PORT);
-
-
-
-
-
-
-

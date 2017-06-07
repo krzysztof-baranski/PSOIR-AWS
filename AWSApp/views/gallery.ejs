@@ -12,7 +12,7 @@
 			$("select").imagepicker();
 		});
 		
-		function onSubmit(e) {
+		function onSubmit(event, element) {
 			var sources = [];
 			$.each($(".selected > img"), function(index, value){ 
 				var tmpSplit = $(value).attr("src").split('/');
@@ -20,7 +20,7 @@
 			});
         
             if (sources.length === 0) {
-                e.preventDefault();
+                event.preventDefault();
                 return;
             }
             document.getElementById('fileNames').value = JSON.stringify(sources);
@@ -28,13 +28,35 @@
 
         function onSelect(element) {
         	var buttonRotate = document.getElementById('rotateBtn');
+        	var deleteBtn = document.getElementById('deleteBtn');
         	if (element.selectedOptions.length > 0) {
 	        	buttonRotate.classList.remove('disabled');
+	        	deleteBtn.classList.remove('disabled');
 	        } else {
 	        	buttonRotate.classList.add('disabled');
+	        	deleteBtn.classList.add('disabled');
 	        }
         }
+
+        function onDelete(event, element) {
+        	var sources = [];
+			$.each($(".selected > img"), function(index, value){ 
+				var tmpSplit = $(value).attr("src").split('/');
+				sources.push(tmpSplit[tmpSplit.length -2] + '/' + tmpSplit[tmpSplit.length - 1]);
+			});
+        
+            if (sources.length === 0) {
+                event.preventDefault();
+                return;
+            }
+            document.getElementById('fileNames2').value = JSON.stringify(sources);
+        }
 		</script>
+		<style type="text/css">
+			.col-md-3 {
+				width: 285px;
+			}
+		</style>
     <title>Obróć obrazek</title>
 </head>
 <body>    
@@ -50,32 +72,44 @@
 					<h3 class="panel-title">Obróć</h3>
 				</div>
 			</div>
-			<form class="panel-body" method="post" action="/rotate" onsubmit="onSubmit(event)">
-				<div class="col-md-3">
+			<div class="panel-body" style="display: inline-grid;">
+				<form method="post" action="/rotate" onsubmit="onSubmit(event, this)">
+					<div class="col-md-3">
 
-					<input type="radio" name="direction" value="left"> w lewo 
-					&nbsp &nbsp
-					<input type="radio" checked="true" name="direction" value="right"> w prawo
-					<span style="display: flex;">
-						<input class="form-control" style="margin-top:10px;"
-							type="number" name="rotateDegrees" min="0" value="45" max="360">&deg
-					</span>
-					<button id="rotateBtn" class="btn btn-primary btn-block disabled" 
-						style="margin-top:10px;" type="submit">Obróć</button>
-					
-				</div>
-				<div class="col-md-3">
-					<input type="hidden" name="files" id="fileNames" />
-				</div>     
-			</form>     
-		
-				 
+						<input type="radio" name="direction" value="left"> w lewo 
+						&nbsp &nbsp
+						<input type="radio" checked="true" name="direction" value="right"> w prawo
+						<span style="display: flex;">
+							<input class="form-control" style="margin-top:10px;"
+								type="number" name="rotateDegrees" min="0" value="45" max="360">&deg
+						</span>
+						<button id="rotateBtn" class="btn btn-primary btn-block disabled" 
+							style="margin-top:10px;" type="submit">Obróć</button>
+						
+					</div>
+					<div class="col-md-3">
+						<input type="hidden" name="command" value="rotate" />
+						<input type="hidden" name="files" id="fileNames" />
+					</div>     
+				</form>     
+				<form method="post" action="/delete" onsubmit="onDelete(event, this)">
+					<div class="col-md-3">
+						<button id="deleteBtn" class="btn btn-primary btn-block disabled" 
+							style="margin-top:10px;" type="submit">Usuń obrazek</button>
+						<div>
+							<input type="hidden" name="command" value="delete" />
+							<input type="hidden" name="files2" id="fileNames2" />
+						</div>
+					</div>
+				</form>
+			</div>
 		</section > 
 	</div>   
 	<div style="margin: 0 110px;" >           
 		<select onchange="onSelect(this)" multiple="multiple" class="image-picker show-html">
 			<% files.forEach(function(file, i) { %>
-				<option onselect="onSelect(this)" data-img-src="<%= 'https://s3-us-west-2.amazonaws.com/' + bucket + '/' + file.Key %>" 
+				<option onselect="onSelect(this)" 
+					data-img-src="<%= 'https://s3-us-west-2.amazonaws.com/' + bucket + '/' + file.Key %>" 
 					value=<%=file.Key%>> 
 				</option>
 		    <% }); %>

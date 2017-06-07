@@ -2,5 +2,6 @@
 	{"path":"/","action":"createform"},	
 	{"path":"/gallery","action":"gallery"},
 	{"path":"/rotate","action":"rotate"},
-	{"path":"/succesPage","action":"succesPage"}
+	{"path":"/succesPage","action":"succesPage"},
+	{"path":"/delete","action":"delete"}
 ]
