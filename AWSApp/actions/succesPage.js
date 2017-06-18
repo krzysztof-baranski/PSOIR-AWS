@@ -1,6 +1,6 @@
 var AWS = require("aws-sdk");
 AWS.config.loadFromPath('./config.json');
-var simpleDB = require("./simpleDB");
+var simpleDb = require("./simpleDB");
 var INDEX_TEMPLATE = "succesPage.ejs";
 
 var task = function (request, callback) {
@@ -9,15 +9,22 @@ var task = function (request, callback) {
 		bucket : request.query.bucket,
 		key : request.query.key
 	};
+	var domainName = '208289';
 
 	attributes.push({
 		Name : 'name',
 		Value : params.key
 	});
 
-	simpleDB.putAttributes(params.key, attributes, function () {
-		console.log("@@ putAttributes succesPage ", params.key, attributes);
-		simpleDB.getFromDb(params.key);
+	simpleDb.listDomains(function (data) {
+		if (data && data.length > 0 && data.indexOf(domainName) !== -1) {
+			return;
+		}
+		simpleDb.createDomain(domainName);
+	}); 
+
+	simpleDb.putAttributes(params.key, attributes, function () {
+		simpleDb.getFromDb(params.key);
 	});
 
 	callback(null, {
