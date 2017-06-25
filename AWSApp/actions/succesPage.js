@@ -27,6 +27,21 @@ var task = function (request, callback) {
 		simpleDb.getFromDb(params.key);
 	});
 
+	// simpleDb.selectFromDb(function(data){
+	// 	console.log("!!@ selectFromDb ", data);
+		
+	// 	if (!data || !data.length) {
+	// 		return;
+	// 	}
+
+	// 	for (var i=0; i<data.Items.length; i++) {
+	// 		simpleDb.removeAttributes(data.Items[i].Name, function (data) {
+	// 			console.log('Attributes deleted! ', data.Items[i-1]);
+	// 			simpleDb.getFromDb(data.Items[i-1].Name);
+	// 		});
+	// 	}
+	// });	
+
 	callback(null, {
 		template : INDEX_TEMPLATE,
 		params : {
